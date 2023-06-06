@@ -2,8 +2,11 @@ package com.yuan.newbeecopy.api.mall;
 
 import com.yuan.newbeecopy.api.mall.param.UserLoginParam;
 import com.yuan.newbeecopy.api.mall.param.UserRegisterParam;
+import com.yuan.newbeecopy.api.mall.param.UserUpdateParam;
 import com.yuan.newbeecopy.common.Constants;
 import com.yuan.newbeecopy.common.ServiceResultEnum;
+import com.yuan.newbeecopy.config.annotation.TokenToMallUser;
+import com.yuan.newbeecopy.pojo.User;
 import com.yuan.newbeecopy.service.MallUserService;
 import com.yuan.newbeecopy.utils.NumberUtil;
 import com.yuan.newbeecopy.utils.Result;
@@ -11,13 +14,11 @@ import com.yuan.newbeecopy.utils.ResultGenerator;
 import com.yuan.newbeecopy.utils.SystemUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -60,5 +61,15 @@ public class PersonAPI {
         }
         //注册失败
         return ResultGenerator.genFailResult(register);
+    }
+    @PutMapping("/user/update")
+    @ApiOperation(value = "用户修改",notes = "")
+    public Result updateUserInfo(@RequestBody @ApiParam("用户信息") UserUpdateParam userUpdateParam, @TokenToMallUser User user){
+        Boolean flag = mallUserService.userUpdateInfo(userUpdateParam, user.getUserId());
+        if(flag){
+            //返回成功
+            return ResultGenerator.genSuccessResult("修改成功");
+        }
+        return ResultGenerator.genFailResult("修改失败");
     }
 }

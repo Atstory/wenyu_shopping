@@ -24,6 +24,9 @@ public class TokenToMallUserArgumentResovler implements HandlerMethodArgumentRes
     @Resource
     UserMapper userMapper;
 
+    public TokenToMallUserArgumentResovler() {
+    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         if (parameter.hasParameterAnnotation(TokenToMallUser.class)) return true;
@@ -32,7 +35,7 @@ public class TokenToMallUserArgumentResovler implements HandlerMethodArgumentRes
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        if (parameter.getParameterAnnotation(TokenToAdminUser.class) instanceof TokenToAdminUser) {
+        if (parameter.getParameterAnnotation(TokenToMallUser.class) instanceof TokenToMallUser) {
             User mallUser = null;
             String token = webRequest.getHeader("token");
             if (token != null && !"".equals(token) && token.length() == Constants.TOKEN_LENGTH) {

@@ -1,5 +1,7 @@
 package com.yuan.newbeecopy.service;
 
+import com.yuan.newbeecopy.api.mall.param.UserUpdateParam;
+
 public interface MallUserService {
     /**
      * 用户登录
@@ -23,7 +25,7 @@ public interface MallUserService {
      * 修改用户
      * @return
      */
-    Boolean userUpdateInfo();
+    Boolean userUpdateInfo(UserUpdateParam userUpdateParam,Long userId);
 
     /**
      * 用户登出

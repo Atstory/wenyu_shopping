@@ -1,5 +1,7 @@
 package com.yuan.newbeecopy.service.impl;
 
+import com.yuan.newbeecopy.api.mall.param.UserUpdateParam;
+import com.yuan.newbeecopy.common.NewBeeException;
 import com.yuan.newbeecopy.common.ServiceResultEnum;
 import com.yuan.newbeecopy.mapper.UserMapper;
 import com.yuan.newbeecopy.mapper.UserTokenMapper;
@@ -79,8 +81,16 @@ public class MallUserServiceImpl implements MallUserService {
     }
 
     @Override
-    public Boolean userUpdateInfo() {
-        return null;
+    public Boolean userUpdateInfo(UserUpdateParam userUpdateParam, Long userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) NewBeeException.fail(ServiceResultEnum.DATA_NOT_EXIST.getResult());
+        user.setNickName(userUpdateParam.getNickName());
+        if (!MD5Util.MD5Encode("", "UTF-8").equals(userUpdateParam.getPassword())) {
+            user.setPasswordMd5(user.getPasswordMd5());
+        }
+        user.setNickName(userUpdateParam.getNickName());
+        if (userMapper.updateByPrimaryKeySelective(user) > 0) return true;
+        return false;
     }
 
     @Override
