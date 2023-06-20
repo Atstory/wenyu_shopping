@@ -119,7 +119,7 @@
         -->
         goods_detail_content
     </sql>
-<!--    List<NewBeeMallGoods> selectByPrimaryKeys(List<Long> goodsIds);-->
+    <!--    List<NewBeeMallGoods> selectByPrimaryKeys(List<Long> goodsIds);-->
 
     <select id="selectByPrimaryKeys" resultMap="BaseResultMap">
         select
@@ -157,6 +157,62 @@
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
+    </select>
+    <!--    List<GoodsInfo> findGoodsListBySearch(PageQueryUtil pageUtil);-->
+    <select id="findGoodsListBySearch" resultMap="BaseResultMap" parameterType="Map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_newbee_mall_goods_info
+        <where>
+            <if test="keyWord!=null and keyWord!=''">
+                and (goods_name like CONCAT('%',#{keyWord},'%') or goods_intro like CONCAT('%',#{keyWord},'%'))
+            </if>
+            <if test="goodsCategoryId!=null and goodsCategoryId!=''">
+                and goods_category_id = #{goodsCategoryId}
+            </if>
+            <if test="goodsSellStatus!=null">
+                and goods_sell_status = #{goodsSellStatus}
+            </if>
+        </where>
+        <if test="orderBy!=null and orderBy!=''">
+            <choose>
+                <when test="orderBy == 'new'">
+                    <!-- 按照发布时间倒序排列 -->
+                    order by goods_id desc
+                </when>
+                <when test="orderBy == 'price'">
+                    <!-- 按照售价从小到大排列 -->
+                    order by selling_price asc
+                </when>
+                <otherwise>
+                    <!-- 默认按照库存数量从大到小排列 -->
+                    order by stock_num desc
+                </otherwise>
+            </choose>
+        </if>
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <!--    int getTotalGoods(PageQueryUtil pageUtil);-->
+    <select id="getTotalGoods" parameterType="map" resultType="int">
+        select
+        count(*)
+        from tb_newbee_mall_goods_info
+        <where>
+            <if test="goodsName!=null and goodsName!=''">
+                and goods_name like CONCAT('%','#{goodsName}','%')
+            </if>
+            <if test="goodsSellStatus!=null and goodsName!=''">
+                and goods_sell_status = #{goodsSellStatus}
+            </if>
+            <if test="startTime!=null and startTime.trim()!=''">
+                and create_time &gt; #{startTime}
+            </if>
+            <if test="endTime!=null and endTime.trim()!=''">
+                and create_time &lt; #{endTime}
+            </if>
+        </where>
     </select>
     <select id="selectByExample" parameterType="com.yuan.newbeecopy.pojo.GoodsInfoExample" resultMap="BaseResultMap">
         <!--

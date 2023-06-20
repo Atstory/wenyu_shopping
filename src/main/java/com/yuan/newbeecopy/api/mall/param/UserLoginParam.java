@@ -13,5 +13,5 @@ public class UserLoginParam implements Serializable {
     private String userName;
     @ApiModelProperty("用户密码(需要MD5加密)")
     @NotEmpty(message = "密码")
-    private String passwordMd5;
+    private String password;
 }

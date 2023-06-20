@@ -36,8 +36,8 @@ public class PersonAPI {
         if(!NumberUtil.isPhone(userLogin.getUserName())){
             return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
         }
-        userLogin.setPasswordMd5(SystemUtil.genToken(userLogin.getPasswordMd5()));
-        String loginResult = mallUserService.login(userLogin.getUserName(), userLogin.getPasswordMd5());
+        userLogin.setPassword(SystemUtil.genToken(userLogin.getPassword()));
+        String loginResult = mallUserService.login(userLogin.getUserName(), userLogin.getPassword());
         logger.info("login api,loginName={},loginResult={}", userLogin.getUserName(), loginResult);
         //登录成功
         if(StringUtils.hasText(loginResult)&&loginResult.length()== Constants.TOKEN_LENGTH){
@@ -71,5 +71,18 @@ public class PersonAPI {
             return ResultGenerator.genSuccessResult("修改成功");
         }
         return ResultGenerator.genFailResult("修改失败");
+    }
+    @GetMapping  ("/user/info")
+    @ApiOperation(value = "用户信息",notes = "")
+    public Result userInfo(@TokenToMallUser User user){
+        return ResultGenerator.genSuccessResult(user);
+    }
+    @PostMapping  ("/user/logout")
+    @ApiOperation(value = "登出接口",notes = "清除token")
+    public Result logout(@TokenToMallUser User user){
+        Boolean aBoolean = mallUserService.loginOut(user.getUserId());
+        logger.info("logout api,userLoginOut={}", user);
+        if(aBoolean) return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genFailResult("登出失败");
     }
 }

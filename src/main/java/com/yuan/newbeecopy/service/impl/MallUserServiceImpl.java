@@ -88,14 +88,14 @@ public class MallUserServiceImpl implements MallUserService {
         if (!MD5Util.MD5Encode("", "UTF-8").equals(userUpdateParam.getPassword())) {
             user.setPasswordMd5(user.getPasswordMd5());
         }
-        user.setNickName(userUpdateParam.getNickName());
+        user.setIntroduceSign(userUpdateParam.getIntroduceSign());
         if (userMapper.updateByPrimaryKeySelective(user) > 0) return true;
         return false;
     }
 
     @Override
     public Boolean loginOut(Long userId) {
-        return null;
+        return userTokenMapper.deleteByPrimaryKey(userId)>0;
     }
 
     @Override
