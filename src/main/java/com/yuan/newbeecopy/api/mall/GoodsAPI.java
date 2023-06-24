@@ -15,10 +15,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ import java.util.Map;
 @Api(value = "v1", tags = "3.科技商品接口")
 @RequestMapping("/api/v1")
 public class GoodsAPI {
-    @Autowired
+    @Resource
     private GoodsService goodsService;
     private static final Logger logger = LoggerFactory.getLogger(GoodsAPI.class);
 

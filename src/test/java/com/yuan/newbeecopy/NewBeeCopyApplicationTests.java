@@ -1,11 +1,13 @@
 package com.yuan.newbeecopy;
 
 import com.yuan.newbeecopy.api.mall.Vo.IndexCarouselVO;
+import com.yuan.newbeecopy.api.mall.Vo.IndexCategoryVO;
 import com.yuan.newbeecopy.api.mall.Vo.IndexConfigGoodsVO;
 import com.yuan.newbeecopy.mapper.GoodsCategoryMapper;
 import com.yuan.newbeecopy.pojo.GoodsCategory;
 import com.yuan.newbeecopy.pojo.GoodsCategoryExample;
 import com.yuan.newbeecopy.service.CarouselService;
+import com.yuan.newbeecopy.service.GoodsCategoryService;
 import com.yuan.newbeecopy.service.IndexConfigService;
 import com.yuan.newbeecopy.utils.MD5Util;
 import com.yuan.newbeecopy.utils.NumberUtil;
@@ -15,13 +17,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
 @Slf4j
 class NewBeeCopyApplicationTests {
     @Resource
-    IndexConfigService indexConfigService;
+    GoodsCategoryService goodsCategoryService;
 
     @Test
     void contextLoads() {
@@ -38,15 +41,20 @@ class NewBeeCopyApplicationTests {
 //        index_goods_hots.forEach((item) -> {
 //            log.info("查询结果-->{}", item.toString());
 //        });
-        String wdnmd = "123456";
-        try {
-            byte[] bytes = wdnmd.getBytes("UTF-8");
-            for (byte b: bytes) {
-                System.out.println("b = " + b);
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("b/16 = " + MD5Util.MD5Encode(wdnmd,"UTF-8"));
+//        String wdnmd = "123456";
+//        try {
+//            byte[] bytes = wdnmd.getBytes("UTF-8");
+//            for (byte b: bytes) {
+//                System.out.println("b = " + b);
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println(Collections.singletonList(0L));
+//        System.out.println("b/16 = " + MD5Util.MD5Encode(wdnmd,"UTF-8"));
+//        for (IndexCategoryVO categoryForIndex : goodsCategoryService.getCategoryForIndex()) {
+//            System.out.println("categoryForIndex = " + categoryForIndex);
+//        }
+
     }
 }

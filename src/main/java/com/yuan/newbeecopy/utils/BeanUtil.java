@@ -6,7 +6,6 @@ import org.springframework.beans.BeanUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-@Slf4j
 public class BeanUtil {
     public static Object copyProperties(Object source,Object target,String... ignoreProperties){
         if(source == null){
